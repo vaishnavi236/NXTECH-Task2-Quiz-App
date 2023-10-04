@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+}
+
+.quiz-container {
+    text-align: center;
+    margin: 20px;
+}
+
+#question {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color:navy;
+    font-weight: bolder;
+    
+}
+
+#choices-container {
+    display:inline-block;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color:indigo;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#score {
+    font-size: 20px;
+    margin-top: 20px;
+    font-weight: bold;
+    background-color: aqua;
+}
+h1{
+    font-weight:bolder;
+    color:crimson;
+    
+}
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz App</h1>
+        <div id="question-container">
+            <p id="question"></p>
+        </div>
+        <div id="choices-container">
+            <!-- Choices will be generated dynamically using JavaScript -->
+        </div>
+        <button id="next-button">Next</button>
+        <p id="score">Score: 0</p>
+    </div>
+    <script>
+        const questions = [
+    {
+        question: "What is the capital of France?",
+        choices: ["London", "Madrid", "Paris", "Berlin"],
+        correctAnswer: "Paris"
+    },
+    {
+        question: "Which planet is known as the Red Planet?",
+        choices: ["Mars", "Venus", "Jupiter", "Saturn"],
+        correctAnswer: "Mars"
+    },
+    {
+        question: "What is the largest mammal in the world?",
+        choices: ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+        correctAnswer: "Blue Whale"
+    },
+    {
+        question: "'Dandia' is a popular dance of?",
+        choices: ["Punjab", "Gujarat", "Tamil Nadu", "Maharashtra"],
+        correctAnswer: "Gujarat"
+    },
+    {
+        question: "Where is the Railway Staff College located?",
+        choices: ["Pune", "Allahabad", "Vadodara", "Delhi"],
+        correctAnswer: "Vadodara"
+    }
+
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+const questionElement = document.getElementById("question");
+const choicesContainer = document.getElementById("choices-container");
+const nextButton = document.getElementById("next-button");
+const scoreElement = document.getElementById("score");
+
+function displayQuestion() {
+    const currentQuestion = questions[currentQuestionIndex];
+    questionElement.textContent = currentQuestion.question;
+    
+    choicesContainer.innerHTML = "";
+    
+    currentQuestion.choices.forEach((choice) => {
+        const choiceButton = document.createElement("button");
+        choiceButton.textContent = choice;
+        choiceButton.addEventListener("click", () => checkAnswer(choice));
+        choicesContainer.appendChild(choiceButton);
+    });
+}
+
+function checkAnswer(selectedChoice) {
+    const currentQuestion = questions[currentQuestionIndex];
+    
+    if (selectedChoice === currentQuestion.correctAnswer) {
+        score++;
+    }
+    
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex < questions.length) {
+        displayQuestion();
+    } else {
+        endQuiz();
+    }
+}
+
+function endQuiz() {
+    questionElement.textContent = "Quiz Completed!";
+    choicesContainer.innerHTML = "";
+    nextButton.style.display = "none";
+    scoreElement.textContent = `Final Score: ${score} out of ${questions.length}`;
+}
+
+nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+        displayQuestion();
+    } else {
+        endQuiz();
+    }
+});
+
+// Initial question display
+displayQuestion();
+    </script>
+</body>
+</html>
